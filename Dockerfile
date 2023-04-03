@@ -30,4 +30,6 @@ RUN flutter build web
 FROM nginx:1.21.1-alpine
 COPY --from=build-env /app/build/web /usr/share/nginx/html
 
-EXPOSE 80
+EXPOSE 8080
+
+CMD ["/bin/sh", "-c", "sed -i 's/listen  .*/listen 8080;/g' /etc/nginx/conf.d/default.conf && exec nginx -g 'daemon off;'"]
